@@ -1,0 +1,139 @@
+<div class="row">
+  <div class="col-sm-3">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Search for Station</div>
+      <div class="panel-body">
+
+      <div class="btn-group">
+      <input id="searchinput" type="search" class="form-control" 
+      [(ngModel)]="searchStr" (keyup)="onKey($event)">
+      <span (click)="clear()" id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
+      </div>
+      <!-- <input [(ngModel)]="searchStr" (keyup)="onKey($event)"> -->
+
+      <div class="panel panel-default" *ngFor="let item of stations"  dnd-draggable [dragEnabled]="true" [dragData]="item">
+      <div class="panel-body">
+        {{item.station_name}}
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+
+
+  <!--<div class="col-sm-3">
+    <div class="panel panel-default" dnd-draggable [dragEnabled]="true" [dragData]="">
+      <div class="panel-body">
+        <div>{{item}}</div>
+      </div>
+    </div>
+  </div>-->
+
+
+ <div class="col-sm-3">
+
+  <div class="panel panel-default">
+  <div class="panel-heading">
+ 
+  <div class="panel-body">
+
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        Set Route
+      </div>
+      <div  dnd-droppable (onDropSuccess)="transferDataSuccess($event)">
+      <div class="panel-body" dnd-sortable-container  [sortableData]="listOne" [dropZones]="['delete-dropZone']">
+        <ul class="list-group">
+          <li *ngFor="let item of listOne; let i = index" class="list-group-item"
+               dnd-sortable [sortableIndex]="i" dnd-draggable [dragEnabled]="true" [dragData]="item" >{{item.station_name}}</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+    
+    <form #routeForm="ngForm">
+    <div class="form-group">
+      <label for="route_number">Route Number <span class="badge">All fields required</span></label>
+      <input class="form-control" [(ngModel)]="newRoute.name" type="text" name="route_number" required>
+    </div>
+
+    <div class="form-group">
+      <label for="kml_path">URL to kml</label>
+      <input class="form-control" [(ngModel)]="newRoute.kml_path" type="text" name="kmlUrl" required>
+    </div>
+
+    <div class="form-group">
+      <label for="start">start station</label>
+      <input class="form-control" [(ngModel)]="newRoute.start" type="text" name="start" required>
+    </div>
+
+    <div class="form-group">
+      <label for="end">start station</label>
+      <input class="form-control" [(ngModel)]="newRoute.end" type="text" name="end" required>
+    </div>
+
+    
+     <div  *ngIf="!selectedRoute">
+     <button type="submit" class="btn btn-success" [disabled]="!routeForm.form.valid" 
+     (click)="addNewRoute()">AddNew</button>
+     </div>
+   </form>
+   </div>
+   </div>
+   <p>
+   <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">
+    {{ successMessage }}</ngb-alert>
+    </p>
+
+   </div>
+   </div>
+
+    <div *ngIf="selectedRoute">
+      <button class="btn btn-success" (click)="updateRoute()">update</button>
+      <button class="btn btn-primary" (click)="reset()">Reset</button>
+      <button class="btn btn-danger" (click)="delete()">Delete</button>
+    </div>
+  </div>
+
+
+  <!-- duplicate problem -->
+  <div class="col-sm-3">
+    <div class="panel panel-warning" >
+      <div class="panel-heading">Drop Items here</div>
+      <div class="panel-body" dnd-sortable-container  [sortableData]="droppedItems"
+           dnd-droppable (onDropSuccess)="onItemDrop($event)" [dropZones]="['delete-dropZone']">
+        <ul class="list-group">
+        <li *ngFor="let item of droppedItems" class="list-group-item"
+            dnd-draggable [dragEnabled]="true" [dragData]="item">{{item.station_name}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!--upload the the kml file-->
+  <div class="col-sm-3">
+    <div class="panel panel-success">
+      <div class="panel-heading">Search for Route</div>
+        <div class="panel-body">
+         <div class="btn-group">
+          <input id="searchinput" type="search" class="form-control" 
+          [(ngModel)]="searchRouteStr" (keyup)="onKeyRoute($event)">
+          <span (click)="clearRoute()" id="searchclear" class="glyphicon glyphicon-remove-circle">
+          </span>
+          </div>
+          <!-- <input [(ngModel)]="searchRouteStr" (keyup)="onKeyRoute($event)"> -->
+          <ul class="routes">
+            <li *ngFor="let item of routes" (click)="onSelect(item)" >
+              <span class="badge">{{item.name}}</span>
+            </li>
+          </ul>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+

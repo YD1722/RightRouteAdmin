@@ -1,0 +1,176 @@
+  <div class="container">
+  <div class="header">
+
+    <h3 class="text-muted">Select a Station On Map</h3>
+  </div>
+  <!-- Map and Side Panel -->
+  <div class="row content">
+    <!-- Google Map -->
+    <div class="col-md-7">
+      <div #map id="map" style="width:645px; height:645px"> </div>
+    </div>
+    <!-- Side Panel -->
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <!-- Panel Title -->
+        <div class="panel-heading">
+
+          <div class="panel-body">
+            <div class="row">
+
+              <div class="col-md-6"><h2 class="panel-title text-center">
+                <button class="btn-block" (click)="addStation()">Add a new Station</button>
+                <span class="glyphicon glyphicon-map-marker"></span></h2></div>
+
+
+              <div  class="col-md-6"><h2 class="panel-title text-center">
+                <button class="btn-block" (click)="updateStation()">update Station</button>
+                <span class="glyphicon glyphicon-map-marker"></span></h2></div>
+            </div>
+          </div>
+
+        </div>
+
+        <p>
+        <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
+        </p>
+        <!-- Panel Body -->
+        <div class="panel-body" *ngIf="add_station">
+          <!-- Creates Form (novalidate disables HTML validation, Angular will control) -->
+          <form (ngSubmit)="onSubmit()" #stationForm="ngForm">
+            <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
+            <div class="form-group">
+              <label for="station_name">Station Name <span class="badge">All fields required</span></label>
+              <input name="stationName" type="text" class="form-control" id="station_name" placeholder="station name"
+                     [(ngModel)]="station_name" required>
+            </div>
+
+            <!--  <label class="radio control-label">Gender</label>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="optionsRadios" id="radiomale" value="Male" ng-model="formData.gender">
+                  Male
+                </label>
+              </div>
+              <div class="radio" required>
+                <label>
+                  <input type="radio" name="optionsRadios" id="radiofemale" value="Female" ng-model="formData.gender">
+                  Female
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="optionsRadios" id="radioother" value="What's it to ya?" ng-model="formData.gender">
+                  What's it to ya?
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" class="form-control" id="age" placeholder="72" ng-model="formData.age" required>
+              </div>
+              <div class="form-group">
+                <label for="language">Favorite Language</label>
+                <input type="text" class="form-control" id="language" placeholder="Fortran" ng-model="formData.favlang" required>
+              </div>-->
+
+            <div class="form-group">
+              <label for="latitude">Latitude</label>
+              <input [(ngModel)]="lat" name="latitude" class="form-control" id="latitude" readonly >
+            </div>
+            <div class="form-group" >
+              <label for="longitude">Longitude</label>
+              <input [(ngModel)]="lng" name="longitude"  class="form-control" id="longitude" readonly>
+            </div>
+
+            <!--this might be useful in the future -->
+          <!--  <div class="form-group">
+              <label for="verified">HTML5 Verified Location? <span><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></button></span></label>
+              <input type="text" class="form-control" id="verified" placeholder= "Nope (Thanks for spamming my map...)" ng-model="formData.htmlverified" readonly>
+            </div>-->
+            <!-- Submit button. Note that its tied to createUser() function from addCtrl. Also note ng-disabled logic which prevents early submits.  -->
+            <button type="submit" class="btn btn-danger btn-block" [disabled]="!stationForm.form.valid">Submit</button>
+            <!--<button type="submit" [disabled]="!f.form.valid">Submit</button>-->
+
+          </form>
+
+        </div>
+
+       <!-- update an existing station-->
+
+        <div class="panel-body" *ngIf="update_station">
+
+          <form #stationForm="ngForm">
+
+            <div class="form-group">
+              <label for="station_name">Station Name <span class="badge">All fields required</span></label>
+              <input name="stationName" type="text" class="form-control"  placeholder=""
+                     [(ngModel)]="search_station_str" (keyup)="onKey($event)" required >
+
+
+            <ul class="routes">
+              <li *ngFor="let station of stations" [class.selected]="station === selectedStation"
+                  (click)="onSelect(station)" >
+                {{station.station_name}}
+              </li>
+            </ul>
+            </div>
+
+
+            <!--  <label class="radio control-label">Gender</label>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="optionsRadios" id="radiomale" value="Male" ng-model="formData.gender">
+                  Male
+                </label>
+              </div>
+              <div class="radio" required>
+                <label>
+                  <input type="radio" name="optionsRadios" id="radiofemale" value="Female" ng-model="formData.gender">
+                  Female
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="optionsRadios" id="radioother" value="What's it to ya?" ng-model="formData.gender">
+                  What's it to ya?
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" class="form-control" id="age" placeholder="72" ng-model="formData.age" required>
+              </div>
+              <div class="form-group">
+                <label for="language">Favorite Language</label>
+                <input type="text" class="form-control" id="language" placeholder="Fortran" ng-model="formData.favlang" required>
+              </div>-->
+
+            <div class="form-group">
+              <label for="latitude">Latitude</label>
+              <input [(ngModel)]="lat" name="latitude" class="form-control"  readonly >
+            </div>
+            <div class="form-group" >
+              <label for="longitude">Longitude</label>
+              <input [(ngModel)]="lng" name="longitude"  class="form-control"  readonly>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary btn-block" (click)="upStation()" [disabled]="!stationForm.form.valid">Update</button>
+            <button  class="btn btn-danger btn-block" (click)="deleteStation()" [disabled]="!stationForm.form.valid">Delete</button>
+
+          </form>
+
+        </div>
+
+
+        <button class="btn btn-success btn-block" (click)="getMarkerCentre()">Get Marker</button>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <!-- Footer -->
+  <div class="footer">
+    <p class="text-center"><span class="glyphicon glyphicon-check"></span> Created by YD
+      Hettiarachchi for RightRoute Application on playStore</p>
+  </div>
+
+</div>

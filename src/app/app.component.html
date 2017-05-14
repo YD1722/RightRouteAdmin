@@ -1,0 +1,42 @@
+<!-- <h1>Hello {{name}}</h1>
+<p>
+  <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">
+    {{successMessage}}
+  </ngb-alert>
+</p>
+<nav>
+ <a routerLink="/stations">Stations</a>
+  <a routerLink="/dashboard">Dashboard</a>
+  <a routerLink="/addStation">AddStation</a>
+  <a routerLink="/addRoute">AddRoute</a>
+  <a routerLink="/login">LogIn</a>
+  
+  <button (click)=logout()>Logout</button>
+</nav>
+<router-outlet></router-outlet> -->
+
+<nav class="navbar navbar-inverse">
+<p>
+  <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">
+    {{successMessage}}
+  </ngb-alert>
+</p>
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">RightRoute</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/stations">Stations</a></li>
+      <li><a routerLink="/addStation">AddStation</a></li>
+      <li><a routerLink="/addRoute">AddRoute</a></li> 
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <span class="glyphicon glyphicon-user"></span>
+      <li><a routerLink="/login">Log In</a></li>
+      <li><a (click)="logout()">Log out</a></li>
+      <!-- router link?? -->
+    </ul>
+  </div>
+</nav>
+<router-outlet></router-outlet>

@@ -1,0 +1,7 @@
+<h2>Right Route Stations</h2>
+<ul class="stations">
+  <li *ngFor="let station of stations" (click)="onSelect(station)"  [class.selected]=" cricketer === selectedCricketer">
+    {{station.station_name}}
+  </li>
+</ul>
+
